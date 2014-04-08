@@ -55,13 +55,14 @@ class MyDashBoardController {
 
               $this->removePictures($deletedPics, $this->currentUser->getUserId());
 
-          }elseif($_SERVER["REQUEST_METHOD"] == "POST" and $_POST['order_by'] and $_POST['order']){
+          }elseif($_SERVER["REQUEST_METHOD"] == "POST" and isset($_POST['order_by']) and isset($_POST['order'])){
               $picturesArray = $this->pictureDB->getPicturesByUserId($this->currentUser->getId(), $_POST['order_by'], $_POST['order']);
 
               $this->displayTemplate($picturesArray, $this->currentUser);
           }elseif($_SERVER["REQUEST_METHOD"] == "POST" and $_POST["post_type"] == "update_title"){
-              
-
+              $title = $_POST['pic_title'];
+              $id = $_POST['pic_id'];
+              $this->updatePictureDesc($id, $title);
           }else{
 
               $picturesArray = $this->pictureDB->getPicturesByUserId($this->currentUser->getUserId());
@@ -184,8 +185,16 @@ class MyDashBoardController {
     }
 
     public function updatePictureDesc($picture_id, $updated_title){
+       $updated = $this->pictureDB->updatePictureDesc($picture_id, $updated_title);
 
-
+       if($updated){
+           $updatedPicture = $this->pictureDB->getPictureByPictureId($picture_id);
+           $result["success"] = true;
+           $result["title"] = $updatedPicture->getPicDesc();
+       }else{
+           $result["success"] = false;
+       }
+        print_r(json_encode($result));
     }
 
     public function displayTemplate($picArray, $user){

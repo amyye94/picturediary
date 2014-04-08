@@ -28,7 +28,10 @@ foreach($picturesArray as $picture) {?>
                 <span style="margin-right: 10px">view:</span><?=$picture->getViewCount()?><br />
                 <span style="margin-right: 10px">like:</span><?=$picture->getLikeCount()?><br />
 
-                <span style="margin-right: 10px">public or not:</span><span><?=$picture->getPrivacy()==0?"public":"private"?><span><input type="button" class="edit-privacy" id="edit-privacy-<?=$picture->getPictureId()?>" value="edit privacy"/><br />
+                <span style="margin-right: 10px">public or not:</span><span><?=$picture->getPrivacy()==0?"public":"private"?></span>
+                <input type="button" class="edit-privacy" id="edit-privacy-<?=$picture->getPictureId()?>" value="edit privacy"/><br />
+                <input style="display:none" type="button" class="edit-privacy-confirm" id="edit-privacy-confirm-<?=$picture->getPictureId()?>" value="confirm change">
+                <input style="display:none" type="button" class="cancel-privacy-button" id="cancel-privacy-button-<?=$picture->getPictureId()?>" value="cancel"/>
                 <span style="margin-right: 10px">Album:</span><br />
 
 

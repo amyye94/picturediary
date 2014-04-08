@@ -169,6 +169,17 @@ class PictureDB {
        return $result;
     }
 
+    public function getPictureByPictureId($picture_id){
+        $sqlQuery = "select *
+                     from p_pictures
+                     where picture_id = {$picture_id}";
+
+        $result = mysqli_query($this->con,$sqlQuery);
+
+        return $this->getPictureEntity($result);
+
+    }
+
     public function getPictureEntities($result){
         $pictureArray = array();
 

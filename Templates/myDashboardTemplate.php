@@ -86,6 +86,10 @@
         $(".edit-title-button").click(wantToChangeTitle);
         $(".cancel-edit-button").click(cancelChangeTitle);
         $(".edit-title-confirm").click(confirmChangeTitle);
+
+        $(".edit-privacy-button").click(wantToChangePrivacy);
+        $(".cancel-privacy-button").click(cancelChangePrivacy);
+        $(".edit-privacy-confirm").click(confirmChangePrivacy);
     });
 
     function addNewPic(){
@@ -216,8 +220,68 @@
                 pic_title: updatedTitle,
                 post_type: "update_title"},
       success: function(response){
+           if(response["success"]){
+               $("#display-title-"+id).html(response["title"]);
+               $("#display-title-"+id).show();
+               $("#edit-title-"+id).hide();
+               $("#edit-title-confirm-"+id).hide();
+               $("#edit-title-button-"+id).show();
+               $("#cancel-edit-button-"+id).show();
 
+               alert("update successfully")
+           }else{
+               alert("update failed");
+           }
       }
+        });
+    }
+
+    function wantToChangePrivacy(){
+        var editButtonId = $(this).attr("id");
+        var id = editButtonId.substring(21);
+        $(this).hide();
+        $("#display-title-"+id).hide();
+        $("#edit-title-"+id).show();
+        $("#edit-title-confirm-"+id).show();
+        $("#cancel-edit-button-"+id).show();
+    }
+
+    function cancelChangePrivacy(){
+        var cancelButtonId = $(this).attr("id");
+        var id = cancelButtonId.substring(22);
+        $(this).hide();
+        $("#display-title-"+id).show();
+        $("#edit-title-"+id).hide();
+        $("#edit-title-confirm-"+id).hide();
+        $("#edit-title-button-"+id).show();
+
+    }
+
+    function confirmChangePrivacy(){
+        var confirmButtonId = $(this).attr("id");
+        var id = confirmButtonId.substring(22);
+        var updatedPrivacy = $("#edit-privacy-"+id).val();
+        $.ajax({
+            url: "mydashboard.php",
+            type: "post",
+            dataType: "json",
+            data: {pic_id:id,
+                pic_privacy: updatedPrivacy,
+                post_type: "updated_privacy"},
+            success: function(response){
+                if(response["success"]){
+                    $("#display-privacy-"+id).html(response["title"]);
+                    $("#display-privacy-"+id).show();
+                    $("#edit-privacy-"+id).hide();
+                    $("#edit-privacy-confirm-"+id).hide();
+                    $("#edit-privacy-button-"+id).show();
+                    $("#cancel-privacy-button-"+id).show();
+
+                    alert("update successfully")
+                }else{
+                    alert("update failed");
+                }
+            }
         });
     }
 
